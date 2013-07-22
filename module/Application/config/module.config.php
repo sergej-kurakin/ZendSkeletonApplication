@@ -7,6 +7,8 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
+$env = getenv('APP_ENV') ?: 'production';
+
 return array(
     'router' => array(
         'routes' => array(
@@ -77,8 +79,8 @@ return array(
         ),
     ),
     'view_manager' => array(
-        'display_not_found_reason' => true,
-        'display_exceptions'       => true,
+        'display_not_found_reason' => ($env == 'development'),
+        'display_exceptions'       => ($env == 'development'),
         'doctype'                  => 'HTML5',
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
