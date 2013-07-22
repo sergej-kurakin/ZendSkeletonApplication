@@ -86,22 +86,36 @@ class Module implements
     {
         $serviceManager = $e->getApplication()->getServiceManager();
 
+        /**
+         * @var $logger \Zend\Log\Logger;
+         */
         $logger = $serviceManager->get('Logger');
 
         $exception = $e->getParam('exception');
         $level = 0;
         do {
-            $logger->crit(
-                sprintf(
-                    '{%d} %s:%d %s (%d) [%s]',
-                    $level,
-                    $exception->getFile(),
-                    $exception->getLine(),
-                    $exception->getMessage(),
-                    $exception->getCode(),
-                    get_class($exception)
-                )
-            );
+            if ($exception) {
+                $logger->crit(
+                    sprintf(
+                        '{%d} %s:%d %s (%d) [%s]',
+                        $level,
+                        $exception->getFile(),
+                        $exception->getLine(),
+                        $exception->getMessage(),
+                        $exception->getCode(),
+                        get_class($exception)
+                    )
+                );
+            } else {
+                $logger->debug(
+                    sprintf(
+                        '%s::%s call without exception',
+                        __CLASS__,
+                        __METHOD__
+                    )
+                );
+                break;
+            }
             $level++;
         }
         while($exception = $exception->getPrevious());
