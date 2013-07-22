@@ -15,6 +15,7 @@ use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
+use Zend\Mvc\MvcEvent;
 
 class Module implements
     BootstrapListenerInterface,
@@ -34,6 +35,9 @@ class Module implements
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+        $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'handleError'));
+        $eventManager->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'handleError'));
     }
 
     /**
@@ -72,4 +76,35 @@ class Module implements
     {
         return include __DIR__ . '/config/module.service.config.php';
     }
+
+    /**
+     * Log errors
+     *
+     * @param EventInterface $e
+     */
+    public function handleError(EventInterface $e)
+    {
+        $serviceManager = $e->getApplication()->getServiceManager();
+
+        $logger = $serviceManager->get('Logger');
+
+        $exception = $e->getParam('exception');
+        $level = 0;
+        do {
+            $logger->crit(
+                sprintf(
+                    '{%d} %s:%d %s (%d) [%s]',
+                    $level,
+                    $exception->getFile(),
+                    $exception->getLine(),
+                    $exception->getMessage(),
+                    $exception->getCode(),
+                    get_class($exception)
+                )
+            );
+            $level++;
+        }
+        while($exception = $exception->getPrevious());
+    }
+
 }
