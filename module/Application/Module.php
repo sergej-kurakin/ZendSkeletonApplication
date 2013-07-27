@@ -81,7 +81,7 @@ class Module implements
      */
     public function getServiceConfig()
     {
-        return include __DIR__ . '/config/module.service.config.php';
+        return include __DIR__ . '/config/service.config.php';
     }
 
     /**
