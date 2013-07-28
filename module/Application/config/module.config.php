@@ -113,4 +113,10 @@ return array(
             ),
         ),
     ),
+    'view_helper_config' => array(
+        'staticfilesversion' => array(
+            'version' => 1,
+            'type' => 'path',
+        ),
+    ),
 );

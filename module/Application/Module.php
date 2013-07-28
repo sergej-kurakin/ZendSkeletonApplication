@@ -17,6 +17,7 @@ use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleBannerProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\ModuleManager\Feature\ControllerProviderInterface;
+use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Console\Adapter\AdapterInterface;
@@ -28,7 +29,8 @@ class Module implements
     ServiceProviderInterface,
     ConsoleBannerProviderInterface,
     ConsoleUsageProviderInterface,
-    ControllerProviderInterface
+    ControllerProviderInterface,
+    ViewHelperProviderInterface
 {
 
     /**
@@ -93,6 +95,17 @@ class Module implements
     public function getControllerConfig()
     {
         return include __DIR__ . '/config/controller.config.php';
+    }
+
+    /**
+     * Expected to return \Zend\ServiceManager\Config object or array to
+     * seed such an object.
+     *
+     * @return array|\Zend\ServiceManager\Config
+     */
+    public function getViewHelperConfig()
+    {
+        return include __DIR__ . '/config/view-helper.config.php';
     }
 
     /**
