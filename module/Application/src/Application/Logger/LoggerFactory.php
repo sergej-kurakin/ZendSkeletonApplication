@@ -31,6 +31,18 @@ class LoggerFactory implements FactoryInterface
             $logConfig = isset($config['weblog']) ? $config['weblog'] : array();
         }
 
+        if (empty($logConfig)) {
+            $logConfig = array(
+                'writers' => array(
+                    array(
+                        'name' => 'Null',
+                    ),
+                ),
+                'exceptionhandler' => true,
+                'errorhandler' => true,
+            );
+        }
+
         $logger = new Logger($logConfig);
 
         return $logger;

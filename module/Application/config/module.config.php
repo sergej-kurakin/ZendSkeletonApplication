@@ -54,32 +54,6 @@ return array(
             ),
         ),
     ),
-    // Website Logger
-    'weblog' => array(
-        'writers' => array(
-            array(
-                'name' => 'Stream',
-                'options' => array(
-                    'stream' => './data/log/app.web.log',
-                ),
-            ),
-        ),
-        'exceptionhandler' => true,
-        'errorhandler' => true,
-    ),
-    // Command Line logger
-    'clilog' => array(
-        'writers' => array(
-            array(
-                'name' => 'Stream',
-                'options' => array(
-                    'stream' => './data/log/app.cli.log',
-                ),
-            ),
-        ),
-        'exceptionhandler' => true,
-        'errorhandler' => true,
-    ),
     'translator' => array(
         'locale' => 'en_US',
         'translation_file_patterns' => array(
