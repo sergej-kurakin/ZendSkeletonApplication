@@ -2,7 +2,7 @@
 
 return array(
     'factories' => array(
-        'Application\Logger\Logger' => 'Application\Logger\LoggerFactory',
+        'Application\Logger\Logger' => 'Application\Logger\Service\LoggerFactory',
     ),
     'abstract_factories' => array(
         'Zend\Cache\Service\StorageCacheAbstractServiceFactory',

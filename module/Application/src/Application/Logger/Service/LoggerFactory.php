@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Logger;
+namespace Application\Logger\Service;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
