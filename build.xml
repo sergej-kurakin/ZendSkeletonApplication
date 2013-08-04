@@ -2,7 +2,7 @@
 
 <project name="ZendSkeletonApplication" default="main" basedir=".">
 
-	<target name="main" />
+    <target name="main" />
 
     <target name="cleanup" description="Cleanup release directory">
         <delete dir="${project.basedir}/build"/>
@@ -71,9 +71,26 @@
         <phplint haltonfailure="true">
             <fileset dir="module">
                 <include name="**/*.php"/>
-				<exclude name="**/tests/**" />
+                <exclude name="**/tests/**" />
             </fileset>
         </phplint>
+    </target>
+    
+    <target name="phpunit">
+        <phpunit
+            bootstrap="${project.basedir}/module/Application/tests/bootstrap.php" 
+            configuration="${project.basedir}/module/Application/tests/phpunit.xml"
+            haltonerror="true"
+            haltonfailure="true"
+        >
+            <formatter todir="${project.basedir}/reports" type="xml"/>
+            <batchtest>
+                <fileset dir="${project.basedir}/module/Application/tests/">
+                    <include name="**/*Test*.php"/>
+                    <exclude name="**/Abstract*.php"/>
+                </fileset>
+            </batchtest>
+        </phpunit>
     </target>
 
 </project>
