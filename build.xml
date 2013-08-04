@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+
+<project name="ZendSkeletonApplication" default="main" basedir=".">
+
+	<target name="main" />
+
+    <target name="cleanup" description="Cleanup release directory">
+        <delete dir="${project.basedir}/build"/>
+    </target>
+
+    <target name="release" depends="build" description="Build and release project">
+
+    </target>
+
+    <target name="prepare">
+        <echo msg="Creating build directory: ./build"/>
+        <mkdir dir="${project.basedir}/build"/>
+    </target>
+
+    <target name="build" depends="prepare">
+        <echo msg="Copying source files to build directory..."/>
+
+        <copy todir="${project.basedir}/build/config" overwrite="true">
+            <fileset dir="${project.basedir}/config">
+                <patternset>
+                    <include name="autoload/*.php.dist"/>
+                    <include name="autoload/*global.php"/>
+                    <include name="autoload/README.md"/>
+                    <include name="application.config.php"/>
+                </patternset>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${project.basedir}/build/data"/>
+        <mkdir dir="${project.basedir}/build/data/cache"/>
+        <mkdir dir="${project.basedir}/build/data/config"/>
+        <mkdir dir="${project.basedir}/build/data/log"/>
+
+        <copy todir="${project.basedir}/build/module" overwrite="true">
+            <fileset dir="${project.basedir}/module">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${project.basedir}/build/public" overwrite="true">
+            <fileset dir="${project.basedir}/public">
+                <patternset>
+                    <include name="**/*"/>
+                </patternset>
+            </fileset>
+        </copy>
+
+        <copy file="${project.basedir}/LICENSE.txt" tofile="${project.basedir}/build/LICENSE.txt" overwrite="true"/>
+        <copy file="${project.basedir}/init_autoloader.php" tofile="${project.basedir}/build/init_autoloader.php" overwrite="true"/>
+        <copy file="${project.basedir}/composer.json" tofile="${project.basedir}/build/composer.json" overwrite="true"/>
+
+        <echo msg="Installing vendors..."/>
+
+        <mkdir dir="${project.basedir}/build/vendor"/>
+
+        <composer command="install" composer="${project.basedir}/composer.phar">
+            <arg value="--no-dev" />
+            <arg value="--optimize-autoloader" />
+            <arg value="--working-dir" />
+            <arg value="${project.basedir}/build/" />
+        </composer>
+
+    </target>
+
+    <target name="checkphp" description="Cleck PHP with lint">
+        <phplint haltonfailure="true">
+            <fileset dir="module">
+                <include name="**/*.php"/>
+            </fileset>
+        </phplint>
+    </target>
+
+</project>
