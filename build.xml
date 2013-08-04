@@ -67,10 +67,11 @@
 
     </target>
 
-    <target name="checkphp" description="Cleck PHP with lint">
+    <target name="checkphp" description="Check PHP with lint">
         <phplint haltonfailure="true">
             <fileset dir="module">
                 <include name="**/*.php"/>
+				<exclude name="**/tests/**" />
             </fileset>
         </phplint>
     </target>
