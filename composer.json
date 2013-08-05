@@ -13,6 +13,7 @@
     },
     "require-dev": {
         "zendframework/zend-developer-tools": "0.0.2",
-        "phpunit/phpunit": "3.7.*"
+        "phpunit/phpunit": "3.7.*",
+        "phpmd/phpmd": "1.4.*"
     }
 }
