@@ -2,8 +2,8 @@
 
 namespace ApplicationTest\View\Helper;
 
-use PHPUnit_Framework_TestCase;
 use Application\View\Helper\StaticFilesVersion;
+use PHPUnit_Framework_TestCase;
 
 class StaticFilesVersionTest extends PHPUnit_Framework_TestCase
 {
