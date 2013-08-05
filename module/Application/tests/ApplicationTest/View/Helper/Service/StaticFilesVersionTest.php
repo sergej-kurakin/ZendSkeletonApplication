@@ -62,5 +62,4 @@ class StaticFilesVersionTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame('v=6', $actual);
     }
-
 }

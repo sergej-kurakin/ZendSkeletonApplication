@@ -34,5 +34,4 @@ class IndexControllerTest extends AbstractHttpControllerTestCase
         $this->dispatch('/url/does/not/exists');
         $this->assertResponseStatusCode(404);
     }
-
 }

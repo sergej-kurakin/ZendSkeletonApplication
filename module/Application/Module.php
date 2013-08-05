@@ -148,8 +148,7 @@ class Module implements
                 break;
             }
             $level++;
-        }
-        while($exception = $exception->getPrevious());
+        } while ($exception = $exception->getPrevious());
     }
 
     /**
@@ -157,7 +156,8 @@ class Module implements
      * The banner is shown in the console window, when the user supplies invalid command-line parameters or invokes
      * the application with no parameters.
      *
-     * The method is called with active Zend\Console\Adapter\AdapterInterface that can be used to directly access Console and send
+     * The method is called with active Zend\Console\Adapter\AdapterInterface that can be used to directly
+     * access Console and send
      * output.
      *
      * @param AdapterInterface $console
@@ -197,5 +197,4 @@ class Module implements
             'Place CLI help here',
         );
     }
-
 }

@@ -41,5 +41,4 @@ class StaticFilesVersionFactory implements FactoryInterface
 
         return $helper;
     }
-
 }

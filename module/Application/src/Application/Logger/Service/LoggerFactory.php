@@ -47,5 +47,4 @@ class LoggerFactory implements FactoryInterface
         return $logger;
 
     }
-
 }
