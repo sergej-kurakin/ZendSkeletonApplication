@@ -36,12 +36,12 @@ class Module implements
     /**
      * Listen to the bootstrap event
      *
-     * @param EventInterface $e
+     * @param EventInterface $event
      * @return array
      */
-    public function onBootstrap(EventInterface $e)
+    public function onBootstrap(EventInterface $event)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
+        $eventManager        = $event->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 
@@ -111,18 +111,18 @@ class Module implements
     /**
      * Log errors
      *
-     * @param EventInterface $e
+     * @param EventInterface $event
      */
-    public function handleError(EventInterface $e)
+    public function handleError(EventInterface $event)
     {
-        $serviceManager = $e->getApplication()->getServiceManager();
+        $serviceManager = $event->getApplication()->getServiceManager();
 
         /**
          * @var $logger \Zend\Log\Logger;
          */
         $logger = $serviceManager->get('Logger');
 
-        $exception = $e->getParam('exception');
+        $exception = $event->getParam('exception');
         $level = 0;
         do {
             if ($exception) {
@@ -162,6 +162,7 @@ class Module implements
      *
      * @param AdapterInterface $console
      * @return string|null
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getConsoleBanner(AdapterInterface $console)
     {
@@ -188,6 +189,7 @@ class Module implements
      *
      * @param AdapterInterface $console
      * @return array|string|null
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getConsoleUsage(AdapterInterface $console)
     {
