@@ -73,7 +73,7 @@
 
     <target name="runtests" depends="phplint,phpunit" description="Testing tasks" />
 
-    <target name="metrics" depends="phploc,phpmd-ci,phpcpd,pdepend,phpcs-ci" description="Metrics tasks" />
+    <target name="runmetrics" depends="phploc,phpmd-ci,phpcpd,pdepend,phpcs-ci" description="Metrics tasks" />
 
     <target name="phplint" description="Check PHP with lint">
         <phplint haltonfailure="true">
@@ -85,20 +85,10 @@
     </target>
     
     <target name="phpunit" description="Run Unit tests on project">
-        <phpunit
-            bootstrap="/tests/Bootstrap.php"
-            configuration="${project.basedir}/tests/phpunit.xml"
-            haltonerror="true"
-            haltonfailure="true"
-        >
-            <formatter todir="${project.basedir}/reports" type="xml"/>
-            <batchtest>
-                <fileset dir="${project.basedir}/tests/">
-                    <include name="**/*Test*.php"/>
-                    <exclude name="**/Abstract*.php"/>
-                </fileset>
-            </batchtest>
-        </phpunit>
+        <exec executable="${project.vendor.bin}/phpunit">
+            <arg value="--configuration" />
+            <arg path="${project.basedir}/tests/phpunit.xml" />
+        </exec>
     </target>
 
     <target name="phploc" description="Measure project size using PHPLOC">
