@@ -101,12 +101,13 @@
         </exec>
     </target>
 
-    <target name="phpmd"
-            description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
+    <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
         <exec executable="phpmd">
             <arg path="${project.basedir}/build/module" />
-            <arg value="text" />
-            <arg value="${project.basedir}/reports/phpmd.xml" />
+            <arg value="xml" />
+            <arg value="cleancode,codesize,controversial,design,naming,unusedcode" />
+            <arg value="--reportfile" />
+            <arg value="${basedir}/reports/pmd.xml" />
         </exec>
     </target>
 
