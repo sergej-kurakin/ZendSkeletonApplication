@@ -12,6 +12,7 @@
         "zendframework/zendframework": "2.2.2"
     },
     "require-dev": {
+        "phing/phing": "2.5.*",
         "zendframework/zend-developer-tools": "0.0.2",
         "phpunit/phpunit": "3.7.*",
         "phpmd/phpmd": "1.4.*",
