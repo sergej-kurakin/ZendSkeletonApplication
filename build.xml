@@ -2,7 +2,9 @@
 
 <project name="ZendSkeletonApplication" default="main" basedir=".">
 
-    <target name="main" />
+    <property name="project.vendor.bin" value="${project.basedir}/vendor/bin" />
+
+    <target name="main" depends="release" />
 
     <target name="cleanup" description="Cleanup release directory">
         <delete dir="${project.basedir}/build"/>
@@ -67,7 +69,11 @@
 
     </target>
 
-    <target name="checkphp" description="Check PHP with lint">
+    <target name="runtests" depends="phplint,phpunit" description="Testing tasks" />
+
+    <target name="metrics" depends="phploc,phpmd-ci,phpcpd,pdepend,phpcs-ci" description="Metrics tasks" />
+
+    <target name="phplint" description="Check PHP with lint">
         <phplint haltonfailure="true">
             <fileset dir="module">
                 <include name="**/*.php"/>
@@ -94,7 +100,7 @@
     </target>
 
     <target name="phploc" description="Measure project size using PHPLOC">
-        <exec executable="phploc">
+        <exec executable="${project.vendor.bin}/phploc">
             <arg value="--log-csv" />
             <arg value="${project.basedir}/reports/phploc.csv" />
             <arg path="${project.basedir}/build/module" />
@@ -102,7 +108,7 @@
     </target>
 
     <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
-        <exec executable="phpmd">
+        <exec executable="${project.vendor.bin}/phpmd">
             <arg path="${project.basedir}/build/module" />
             <arg value="xml" />
             <arg value="cleancode,codesize,controversial,design,naming,unusedcode" />
@@ -112,7 +118,7 @@
     </target>
 
     <target name="phpcpd" description="Find duplicate code using PHPCPD">
-        <exec executable="phpcpd">
+        <exec executable="${project.vendor.bin}/phpcpd">
             <arg value="--log-pmd" />
             <arg value="${project.basedir}/reports/pmd-cpd.xml" />
             <arg path="${project.basedir}/build/module" />
@@ -120,7 +126,7 @@
     </target>
 
     <target name="pdepend" description="Calculate software metrics using PHP_Depend">
-        <exec executable="pdepend">
+        <exec executable="${project.vendor.bin}/pdepend">
             <arg value="--jdepend-xml=${project.basedir}/reports/jdepend.xml" />
             <arg value="--jdepend-chart=${project.basedir}/reports/dependencies.svg" />
             <arg value="--overview-pyramid=${project.basedir}/reports/overview-pyramid.svg" />
@@ -129,13 +135,13 @@
     </target>
 
     <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
-        <exec executable="phpcs" output="/dev/null">
+        <exec executable="${project.vendor.bin}/phpcs" output="/dev/null">
             <arg value="--report=checkstyle" />
             <arg value="--report-file=${project.basedir}/reports/checkstyle-psr1.xml" />
             <arg value="--standard=PSR1" />
             <arg path="${project.basedir}/build/module" />
         </exec>
-        <exec executable="phpcs" output="/dev/null">
+        <exec executable="${project.vendor.bin}/phpcs" output="/dev/null">
             <arg value="--report=checkstyle" />
             <arg value="--report-file=${project.basedir}/reports/checkstyle-pdr2.xml" />
             <arg value="--standard=PSR2" />
