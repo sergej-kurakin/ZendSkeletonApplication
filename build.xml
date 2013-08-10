@@ -76,7 +76,7 @@
         </phplint>
     </target>
     
-    <target name="phpunit">
+    <target name="phpunit" description="Run Unit tests on project">
         <phpunit
             bootstrap="${project.basedir}/module/Application/tests/bootstrap.php" 
             configuration="${project.basedir}/module/Application/tests/phpunit.xml"
@@ -91,6 +91,56 @@
                 </fileset>
             </batchtest>
         </phpunit>
+    </target>
+
+    <target name="phploc" description="Measure project size using PHPLOC">
+        <exec executable="phploc">
+            <arg value="--log-csv" />
+            <arg value="${project.basedir}/reports/phploc.csv" />
+            <arg path="${project.basedir}/build/module" />
+        </exec>
+    </target>
+
+    <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
+        <exec executable="phpmd">
+            <arg path="${project.basedir}/build/module" />
+            <arg value="xml" />
+            <arg value="cleancode,codesize,controversial,design,naming,unusedcode" />
+            <arg value="--reportfile" />
+            <arg value="${project.basedir}/reports/pmd.xml" />
+        </exec>
+    </target>
+
+    <target name="phpcpd" description="Find duplicate code using PHPCPD">
+        <exec executable="phpcpd">
+            <arg value="--log-pmd" />
+            <arg value="${project.basedir}/reports/pmd-cpd.xml" />
+            <arg path="${project.basedir}/build/module" />
+        </exec>
+    </target>
+
+    <target name="pdepend" description="Calculate software metrics using PHP_Depend">
+        <exec executable="pdepend">
+            <arg value="--jdepend-xml=${project.basedir}/reports/jdepend.xml" />
+            <arg value="--jdepend-chart=${project.basedir}/reports/dependencies.svg" />
+            <arg value="--overview-pyramid=${project.basedir}/reports/overview-pyramid.svg" />
+            <arg path="${project.basedir}/build/module" />
+        </exec>
+    </target>
+
+    <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
+        <exec executable="phpcs" output="/dev/null">
+            <arg value="--report=checkstyle" />
+            <arg value="--report-file=${project.basedir}/reports/checkstyle-psr1.xml" />
+            <arg value="--standard=PSR1" />
+            <arg path="${project.basedir}/build/module" />
+        </exec>
+        <exec executable="phpcs" output="/dev/null">
+            <arg value="--report=checkstyle" />
+            <arg value="--report-file=${project.basedir}/reports/checkstyle-pdr2.xml" />
+            <arg value="--standard=PSR2" />
+            <arg path="${project.basedir}/build/module" />
+        </exec>
     </target>
 
 </project>
