@@ -107,7 +107,7 @@
             <arg value="xml" />
             <arg value="cleancode,codesize,controversial,design,naming,unusedcode" />
             <arg value="--reportfile" />
-            <arg value="${basedir}/reports/pmd.xml" />
+            <arg value="${project.basedir}/reports/pmd.xml" />
         </exec>
     </target>
 
