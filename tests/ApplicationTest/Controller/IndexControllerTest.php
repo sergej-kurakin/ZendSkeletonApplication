@@ -13,7 +13,7 @@ class IndexControllerTest extends AbstractHttpControllerTestCase
     {
 
         $this->setApplicationConfig(
-            include __DIR__.'/../../../../../config/application.config.php'
+            include __DIR__.'/../../../config/application.config.php'
         );
         parent::setUp();
     }
