@@ -60,12 +60,14 @@
 
         <mkdir dir="${project.basedir}/build/vendor"/>
 
-        <composer command="install" composer="${project.basedir}/composer.phar">
-            <arg value="--no-dev" />
+        <exec executable="php">
+            <arg value="-f" />
+            <arg value="${project.basedir}/composer.phar" />
+            <arg value="install" />
             <arg value="--optimize-autoloader" />
             <arg value="--working-dir" />
             <arg value="${project.basedir}/build/" />
-        </composer>
+        </exec>
 
     </target>
 
