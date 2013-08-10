@@ -1,5 +1,16 @@
 !.gitignore
 .composer
+bin
 composer
+pdepend
+phing
+phploc
+phpmd
+phpunit
+sebastian
+squizlabs
+symfony
+theseer
 zendframework
+zetacomponents
 autoload.php
