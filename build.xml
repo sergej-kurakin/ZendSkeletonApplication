@@ -76,7 +76,7 @@
         </phplint>
     </target>
     
-    <target name="phpunit">
+    <target name="phpunit" description="Run Unit tests on project">
         <phpunit
             bootstrap="${project.basedir}/module/Application/tests/bootstrap.php" 
             configuration="${project.basedir}/module/Application/tests/phpunit.xml"
