@@ -9,18 +9,18 @@
 
 namespace Application;
 
+use Zend\Console\Adapter\AdapterInterface;
 use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleBannerProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\ModuleManager\Feature\ControllerProviderInterface;
+use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Zend\Console\Adapter\AdapterInterface;
 
 class Module implements
     BootstrapListenerInterface,
@@ -36,12 +36,12 @@ class Module implements
     /**
      * Listen to the bootstrap event
      *
-     * @param EventInterface $e
+     * @param EventInterface $event
      * @return array
      */
-    public function onBootstrap(EventInterface $e)
+    public function onBootstrap(EventInterface $event)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
+        $eventManager        = $event->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 
@@ -111,18 +111,18 @@ class Module implements
     /**
      * Log errors
      *
-     * @param EventInterface $e
+     * @param EventInterface $event
      */
-    public function handleError(EventInterface $e)
+    public function handleError(EventInterface $event)
     {
-        $serviceManager = $e->getApplication()->getServiceManager();
+        $serviceManager = $event->getApplication()->getServiceManager();
 
         /**
          * @var $logger \Zend\Log\Logger;
          */
         $logger = $serviceManager->get('Logger');
 
-        $exception = $e->getParam('exception');
+        $exception = $event->getParam('exception');
         $level = 0;
         do {
             if ($exception) {
@@ -148,8 +148,7 @@ class Module implements
                 break;
             }
             $level++;
-        }
-        while($exception = $exception->getPrevious());
+        } while ($exception = $exception->getPrevious());
     }
 
     /**
@@ -157,11 +156,13 @@ class Module implements
      * The banner is shown in the console window, when the user supplies invalid command-line parameters or invokes
      * the application with no parameters.
      *
-     * The method is called with active Zend\Console\Adapter\AdapterInterface that can be used to directly access Console and send
+     * The method is called with active Zend\Console\Adapter\AdapterInterface that can be used to directly
+     * access Console and send
      * output.
      *
      * @param AdapterInterface $console
      * @return string|null
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getConsoleBanner(AdapterInterface $console)
     {
@@ -188,6 +189,7 @@ class Module implements
      *
      * @param AdapterInterface $console
      * @return array|string|null
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getConsoleUsage(AdapterInterface $console)
     {
@@ -195,5 +197,4 @@ class Module implements
             'Place CLI help here',
         );
     }
-
 }

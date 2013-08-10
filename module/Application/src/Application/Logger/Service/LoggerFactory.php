@@ -2,11 +2,10 @@
 
 namespace Application\Logger\Service;
 
+use Zend\Console\Console;
+use Zend\Log\Logger;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-
-use Zend\Log\Logger;
-use Zend\Console\Console;
 
 class LoggerFactory implements FactoryInterface
 {
@@ -48,5 +47,4 @@ class LoggerFactory implements FactoryInterface
         return $logger;
 
     }
-
 }

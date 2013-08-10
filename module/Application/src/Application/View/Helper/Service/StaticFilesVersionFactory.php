@@ -2,9 +2,9 @@
 
 namespace Application\View\Helper\Service;
 
+use Application\View\Helper\StaticFilesVersion;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Application\View\Helper\StaticFilesVersion;
 
 class StaticFilesVersionFactory implements FactoryInterface
 {
@@ -41,5 +41,4 @@ class StaticFilesVersionFactory implements FactoryInterface
 
         return $helper;
     }
-
 }

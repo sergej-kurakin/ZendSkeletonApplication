@@ -71,5 +71,4 @@ class StaticFilesVersion extends AbstractHelper
     {
         return $this->version;
     }
-
 }
