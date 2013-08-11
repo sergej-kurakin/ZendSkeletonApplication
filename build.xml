@@ -20,6 +20,20 @@
     </target>
 
     <target name="build" depends="prepare">
+
+        <echo msg="Installing vendors..."/>
+
+        <exec executable="php">
+            <arg value="-f" />
+            <arg value="${project.basedir}/composer.phar" />
+            <arg value="install" />
+            <arg value="--dev" />
+            <arg value="--prefer-dist" />
+            <arg value="--optimize-autoloader" />
+            <arg value="--working-dir" />
+            <arg value="${project.basedir}" />
+        </exec>
+
         <echo msg="Copying source files to build directory..."/>
 
         <copy todir="${project.basedir}/build/config" overwrite="true">
@@ -56,7 +70,7 @@
         <copy file="${project.basedir}/init_autoloader.php" tofile="${project.basedir}/build/init_autoloader.php" overwrite="true"/>
         <copy file="${project.basedir}/composer.json" tofile="${project.basedir}/build/composer.json" overwrite="true"/>
 
-        <echo msg="Installing vendors..."/>
+        <echo msg="Installing builded vendors..."/>
 
         <mkdir dir="${project.basedir}/build/vendor"/>
 
@@ -64,6 +78,8 @@
             <arg value="-f" />
             <arg value="${project.basedir}/composer.phar" />
             <arg value="install" />
+            <arg value="--no-dev" />
+            <arg value="--prefer-dist" />
             <arg value="--optimize-autoloader" />
             <arg value="--working-dir" />
             <arg value="${project.basedir}/build/" />
