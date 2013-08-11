@@ -26,26 +26,26 @@
                 <echo msg="Updating vendors..."/>
                 <exec executable="php">
                     <arg value="-f" />
-                    <arg value="${project.basedir}/composer.phar" />
+                    <arg path="${project.basedir}/composer.phar" />
                     <arg value="update" />
                     <arg value="--dev" />
                     <arg value="--prefer-dist" />
                     <arg value="--optimize-autoloader" />
                     <arg value="--working-dir" />
-                    <arg value="${project.basedir}" />
+                    <arg path="${project.basedir}" />
                 </exec>
             </then>
             <else>
                 <echo msg="Installing vendors..."/>
                 <exec executable="php">
                     <arg value="-f" />
-                    <arg value="${project.basedir}/composer.phar" />
+                    <arg path="${project.basedir}/composer.phar" />
                     <arg value="install" />
                     <arg value="--dev" />
                     <arg value="--prefer-dist" />
                     <arg value="--optimize-autoloader" />
                     <arg value="--working-dir" />
-                    <arg value="${project.basedir}" />
+                    <arg path="${project.basedir}" />
                 </exec>
             </else>
         </if>
@@ -95,13 +95,13 @@
 
         <exec executable="php">
             <arg value="-f" />
-            <arg value="${project.basedir}/composer.phar" />
+            <arg path="${project.basedir}/composer.phar" />
             <arg value="install" />
             <arg value="--no-dev" />
             <arg value="--prefer-dist" />
             <arg value="--optimize-autoloader" />
             <arg value="--working-dir" />
-            <arg value="${project.basedir}/build/" />
+            <arg path="${project.basedir}/build/" />
         </exec>
 
     </target>
@@ -129,7 +129,7 @@
     <target name="phploc" description="Measure project size using PHPLOC">
         <exec executable="${project.vendor.bin}/phploc">
             <arg value="--log-csv" />
-            <arg value="${project.basedir}/reports/phploc.csv" />
+            <arg path="${project.basedir}/reports/phploc.csv" />
             <arg path="${project.basedir}/build/module" />
         </exec>
     </target>
@@ -140,7 +140,7 @@
             <arg value="xml" />
             <arg value="cleancode,codesize,controversial,design,naming,unusedcode" />
             <arg value="--reportfile" />
-            <arg value="${project.basedir}/reports/pmd.xml" />
+            <arg path="${project.basedir}/reports/pmd.xml" />
         </exec>
     </target>
 
