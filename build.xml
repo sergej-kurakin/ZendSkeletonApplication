@@ -19,20 +19,39 @@
         <mkdir dir="${project.basedir}/build"/>
     </target>
 
+    <target name="pre-build">
+        <if>
+            <available file="${project.basedir}/composer.lock" type="file" />
+            <then>
+                <echo msg="Updating vendors..."/>
+                <exec executable="php">
+                    <arg value="-f" />
+                    <arg value="${project.basedir}/composer.phar" />
+                    <arg value="update" />
+                    <arg value="--dev" />
+                    <arg value="--prefer-dist" />
+                    <arg value="--optimize-autoloader" />
+                    <arg value="--working-dir" />
+                    <arg value="${project.basedir}" />
+                </exec>
+            </then>
+            <else>
+                <echo msg="Installing vendors..."/>
+                <exec executable="php">
+                    <arg value="-f" />
+                    <arg value="${project.basedir}/composer.phar" />
+                    <arg value="install" />
+                    <arg value="--dev" />
+                    <arg value="--prefer-dist" />
+                    <arg value="--optimize-autoloader" />
+                    <arg value="--working-dir" />
+                    <arg value="${project.basedir}" />
+                </exec>
+            </else>
+        </if>
+    </target>
+
     <target name="build" depends="prepare">
-
-        <echo msg="Installing vendors..."/>
-
-        <exec executable="php">
-            <arg value="-f" />
-            <arg value="${project.basedir}/composer.phar" />
-            <arg value="install" />
-            <arg value="--dev" />
-            <arg value="--prefer-dist" />
-            <arg value="--optimize-autoloader" />
-            <arg value="--working-dir" />
-            <arg value="${project.basedir}" />
-        </exec>
 
         <echo msg="Copying source files to build directory..."/>
 
