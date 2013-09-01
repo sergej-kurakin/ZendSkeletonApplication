@@ -15,6 +15,7 @@ set :deploy_via, :copy
 set :shared_children,   %w(config/autoload data/log www/uploads)
 set :writable_children, %w(data/log www/uploads)
 set(:copy_remote_dir) { "/home/#{user}/tmp/#{application}" }
+set :copy_compression, :bzip2
 
 set :use_sudo, false
 
