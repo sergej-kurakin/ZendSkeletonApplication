@@ -14,6 +14,7 @@ set :deploy_via, :copy
 
 set :shared_children,   %w(config/autoload data/log www/uploads)
 set :writable_children, %w(data/log www/uploads)
+set(:copy_remote_dir) { "/home/#{user}/tmp/#{application}" }
 
 set :use_sudo, false
 
@@ -33,6 +34,13 @@ namespace :deploy do
     dirs = writable_children.map { |d| File.join(shared_path, d.split('/').last) }
     run "#{try_sudo} chmod a+w #{dirs.join(' ')}"
   end
+
+  desc "Setup tmp dir on in case we are shared"
+  task :setup_tmp do
+    dirs = [copy_remote_dir]
+    run "#{try_sudo} mkdir -p #{dirs.join(' ')}"
+    run "#{try_sudo} chmod g+w #{dirs.join(' ')}" if fetch(:group_writable, true)
+  end
 end
 
 desc "Output uname of the server"
@@ -41,3 +49,4 @@ task :uname do
 end
 
 after 'deploy:setup', 'deploy:setup_writable'
+after 'deploy:setup', 'deploy:setup_tmp'
