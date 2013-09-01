@@ -2,8 +2,6 @@ set :stages, %w(production staging testing)
 set :default_stage, "staging"
 require 'capistrano/ext/multistage'
 
-#set :user, "zaza"
-
 set :application, "zfskeleton"
 set :repository,  "./build/"
 
@@ -15,6 +13,7 @@ set(:deploy_to) { "/home/#{user}/sites/#{application}" }
 set :deploy_via, :copy
 
 set :shared_children,   %w(config/autoload data/log www/uploads)
+set :writable_children, %w(data/log www/uploads)
 
 set :use_sudo, false
 
@@ -28,9 +27,17 @@ namespace :deploy do
   task :migrate do
     # no-op
   end
+
+  desc "Setup permissions on writable dirs"
+  task :setup_writable do
+    dirs = writable_children.map { |d| File.join(shared_path, d.split('/').last) }
+    run "#{try_sudo} chmod a+w #{dirs.join(' ')}"
+  end
 end
 
 desc "Output uname of the server"
 task :uname do
   run "uname -a"
 end
+
+after 'deploy:setup', 'deploy:setup_writable'
