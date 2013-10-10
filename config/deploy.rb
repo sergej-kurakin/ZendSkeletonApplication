@@ -9,12 +9,14 @@ set :scm, :none
 
 set :copy_exclude, %w[.git .DS_Store .gitignore .gitmodules .sass-cache Capfile config.rb config/*.rb config/autoload ]
 
-set(:deploy_to) { "/home/#{user}/sites/#{application}" }
+set(:deploy_to) { "/home/#{user}" }
 set :deploy_via, :copy
+
+set :current_dir, "www"
 
 set :shared_children,   %w(config/autoload data/log www/uploads)
 set :writable_children, %w(data/log www/uploads)
-set(:copy_remote_dir) { "/home/#{user}/tmp/#{application}" }
+set(:copy_remote_dir) { "/home/#{user}/tmp" }
 set :copy_compression, :bzip2
 
 set :use_sudo, false
@@ -51,3 +53,4 @@ end
 
 after 'deploy:setup', 'deploy:setup_writable'
 after 'deploy:setup', 'deploy:setup_tmp'
+after 'deploy', 'deploy:cleanup'
