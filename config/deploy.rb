@@ -23,6 +23,16 @@ set :use_sudo, false
 
 set :keep_releases, 4
 
+# Search for password file - same as staging name with _pass
+location = fetch(:stage_dir, "config/deploy")
+
+if stages.include?(ARGV.first)
+  load "#{location}/#{ARGV.first}_pass" if File.exist?(File.join(location, "#{ARGV.first}_pass.rb"))
+else
+  load "#{location}/#{default_stage}_pass" if File.exist?(File.join(location, "#{default_stage}_pass.rb"))
+end
+
+
 namespace :deploy do
   task :restart do
     # no-op
